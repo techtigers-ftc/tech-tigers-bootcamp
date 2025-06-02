@@ -6,21 +6,32 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-// This is an opmode that combines control of a claw and an arm with more complex logic.
-@TeleOp(name="Compound Control OpMode", group="Linear OpMode")
-public class CompoundControlOpMode extends LinearOpMode {
+// This is a full TeleOpMode. It contains code for driving a robot with a
+// mecanum drive train as well as controlling a claw, and controlling an arm
+// with a pitch mechanism, both with basic control and compound control
+// sequences.
+// While this code works, it also is very difficult to read and understand,
+// which can lead to confusion and bugs.
+@TeleOp(name="TeleOpMode", group="Linear OpMode")
+public class TeleOpMode extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         Servo claw = hardwareMap.servo.get("claw_servo");
         Servo clawPitch = hardwareMap.servo.get( "claw_pitch_servo");
         DcMotor motor = hardwareMap.dcMotor.get("arm_motor");
 
-        // This sets the motor to brake when no power is applied, which is
-        // useful for holding the arm in place when not moving.
+        DcMotor leftFrontDrive = hardwareMap.dcMotor.get("left_front");
+        DcMotor leftBackDrive = hardwareMap.dcMotor.get("left_back");
+        DcMotor rightFrontDrive = hardwareMap.dcMotor.get("right_front");
+        DcMotor rightBackDrive = hardwareMap.dcMotor.get("right_back");
+
+        leftFrontDrive.setDirection(DcMotor.Direction.REVERSE);
+        leftBackDrive.setDirection(DcMotor.Direction.REVERSE);
+        rightFrontDrive.setDirection(DcMotor.Direction.FORWARD);
+        rightBackDrive.setDirection(DcMotor.Direction.FORWARD);
+
         motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-        // This is a timer object. We can use it to measure time across
-        // loops, and it is useful for timing operations.
         ElapsedTime timer = new ElapsedTime();
 
         boolean startedUp = false;
@@ -93,8 +104,66 @@ public class CompoundControlOpMode extends LinearOpMode {
                     motor.setPower(-0.5); // Move arm down
                     timer.reset();
                 }
+
+                // Basic Manipulator Control (Only if not in a sequence)
+
+                // Claw open/close operation
+                if (gamepad1.a) {
+                    claw.setPosition(0);
+                } else if (gamepad1.b) {
+                    claw.setPosition(1);
+                }
+
+                // Claw Pitch operation
+                if (gamepad1.x) {
+                    clawPitch.setPosition(0);
+                } else if (gamepad1.y) {
+                    clawPitch.setPosition(1);
+                }
+
+                // Arm operation
+                // Decreased sensitivity so the arm doesn't go flying off; tweak as needed
+                double armPower = -0.25 * gamepad1.left_stick_y;
+                motor.setPower(armPower);
             }
 
+            // Drive Control
+            double max;
+
+            // Left joystick to go forward & strafe, and right joystick to rotate.
+            double axial = -gamepad1.left_stick_y;  // Note: pushing stick forward gives negative value
+            double lateral = gamepad1.left_stick_x;
+            double yaw = gamepad1.right_stick_x;
+
+            // Combine the joystick requests for each axis-motion to determine each wheel's power.
+            // Set up a variable for each drive wheel to save the power level for telemetry.
+            double leftFrontPower = axial + lateral + yaw;
+            double rightFrontPower = axial - lateral - yaw;
+            double leftBackPower = axial - lateral + yaw;
+            double rightBackPower = axial + lateral - yaw;
+
+            // Normalize the values so no wheel power exceeds 100%
+            // This ensures that the robot maintains the desired motion.
+            max = Math.max(Math.abs(leftFrontPower), Math.abs(rightFrontPower));
+            max = Math.max(max, Math.abs(leftBackPower));
+            max = Math.max(max, Math.abs(rightBackPower));
+
+            if (max > 1.0) {
+                leftFrontPower /= max;
+                rightFrontPower /= max;
+                leftBackPower /= max;
+                rightBackPower /= max;
+            }
+
+            // Send calculated power to wheels
+            leftFrontDrive.setPower(leftFrontPower);
+            rightFrontDrive.setPower(rightFrontPower);
+            leftBackDrive.setPower(leftBackPower);
+            rightBackDrive.setPower(rightBackPower);
+
+            telemetry.addData("Front left/Right", "%4.2f, %4.2f", leftFrontPower, rightFrontPower);
+            telemetry.addData("Back  left/Right", "%4.2f, %4.2f", leftBackPower, rightBackPower);
+            telemetry.addLine();
             telemetry.addData("Claw position", claw.getPosition());
             telemetry.addData("Claw Pitch position", clawPitch.getPosition());
             telemetry.addData("Arm power", motor.getPower());

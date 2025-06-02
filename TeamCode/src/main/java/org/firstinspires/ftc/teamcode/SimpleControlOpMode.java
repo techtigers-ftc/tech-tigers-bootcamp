@@ -39,6 +39,12 @@ public class SimpleControlOpMode extends LinearOpMode {
             // Decreased sensitivity so the arm doesn't go flying off; tweak as needed
             double armPower = -0.25 * gamepad1.left_stick_y;
             motor.setPower(armPower);
+
+            telemetry.addData("Claw position", claw.getPosition());
+            telemetry.addData("Claw Pitch position", clawPitch.getPosition());
+            telemetry.addData("Arm power", motor.getPower());
+
+            telemetry.update();
         }
     }
 }
