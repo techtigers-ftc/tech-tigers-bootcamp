@@ -3,7 +3,6 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.util.ElapsedTime;
 
 /*
  * This OpMode contains code for driving a 4-motor Omni-Directional (or Holonomic) robot.
@@ -15,8 +14,8 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * Each motion axis is controlled by one Joystick axis.
  */
 
-@TeleOp(name = "Holonomic Drive OpMode", group = "Linear OpMode")
-public class HolonomicDriveOpMode extends LinearOpMode {
+@TeleOp(name = "Mecanum Drive OpMode", group = "Linear OpMode")
+public class MecanumDriveOpMode extends LinearOpMode {
     @Override
     public void runOpMode() {
         // Initialize the hardware
