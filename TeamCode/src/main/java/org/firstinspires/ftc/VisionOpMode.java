@@ -11,31 +11,17 @@ import org.opencv.core.Scalar;
 
 @TeleOp(name = "Vision OpMode")
 public class VisionOpMode extends LinearOpMode {
-    private Scalar lowerBound = new Scalar(155, 0, 0); // Lower HSV bound
-    private Scalar upperBound = new Scalar(255, 0, 0); // Upper HSV bound
-    private Size cameraResolution = new Size(640, 480); // Camera resolution
+
+    private CameraSubsystem cameraSubsystem;
 
     @Override
     public void runOpMode() throws InterruptedException {
-        ColorFilterPipeline pipeline = new ColorFilterPipeline(
-                lowerBound, // Lower HSV bound
-                upperBound // Upper HSV bound
-        );
-        VisionPortal visionPortal = new VisionPortal.Builder()
-                .setCamera(hardwareMap.get(WebcamName.class, "camera"))
-                .addProcessor(pipeline)
-                .setCameraResolution(cameraResolution)
-                .build();
 
+        cameraSubsystem = new CameraSubsystem(hardwareMap);
         waitForStart();
 
         while (opModeIsActive()){
-            telemetry.addLine("Processor Running");
-            if (pipeline.isObjectDetected()) {
-                telemetry.addLine("Object Detected!");
-            } else {
-                telemetry.addLine("No Object Detected");
-            }
+            telemetry.addData("Object Detected:", cameraSubsystem.isObjectDetected());
         }
 
     }
