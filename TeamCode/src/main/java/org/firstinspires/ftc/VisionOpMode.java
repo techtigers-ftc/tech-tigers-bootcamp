@@ -22,6 +22,7 @@ public class VisionOpMode extends LinearOpMode {
 
         while (opModeIsActive()){
             telemetry.addData("Object Detected:", cameraSubsystem.isObjectDetected());
+            telemetry.update();
         }
 
     }
