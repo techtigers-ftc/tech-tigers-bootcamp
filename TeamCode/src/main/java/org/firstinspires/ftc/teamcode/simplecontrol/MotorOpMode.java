@@ -39,7 +39,6 @@ public class MotorOpMode extends LinearOpMode {
                 motor.setTargetPosition(0); // Move arm back to position 0
             }
 
-
             if (!motor.isBusy() && gamepad1.left_stick_y != 0) {
                 // Manual Arm operation
                 motor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);

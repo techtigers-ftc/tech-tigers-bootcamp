@@ -12,14 +12,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 public class CompoundControlOpMode extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
-        Servo claw = hardwareMap.servo.get("claw_servo");
-        Servo clawPitch = hardwareMap.servo.get( "claw_pitch_servo");
-        DcMotor motor = hardwareMap.dcMotor.get("arm_motor");
-
-        // This sets the motor to brake when no power is applied, which is
-        // useful for holding the arm in place when not moving.
-        motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        motor.setDirection(DcMotorSimple.Direction.REVERSE);
+        ManipulatorSubsystem manipulatorSubsystem = new ManipulatorSubsystem(hardwareMap);
 
         // This is a timer object. We can use it to measure time across
         // loops, and it is useful for timing operations.
@@ -33,8 +26,8 @@ public class CompoundControlOpMode extends LinearOpMode {
 
         waitForStart();
 
-        claw.setPosition(0.25);
-        clawPitch.setPosition(0.1);
+        manipulatorSubsystem.openClaw();
+        manipulatorSubsystem.pitchClawToIntake();
         timer.reset();
 
         while (opModeIsActive()) {
@@ -48,39 +41,35 @@ public class CompoundControlOpMode extends LinearOpMode {
                     if (timer.seconds() > 0.5) { // Wait for claw to close
                         movingClaw = false;
                         movingClawPitch = true;
-                        clawPitch.setPosition(0.5); // Claw pitch to drop
-                                                    // position
+                        manipulatorSubsystem.pitchClawToDrop();
                         timer.reset();
                     }
                 } else if (movingClawPitch) { // If the claw pitch is moving
                     if (timer.seconds() > 0.5) {
                         movingClawPitch = false;
                         movingArm = true;
-                        motor.setPower(0.75); // Move arm up
+                        manipulatorSubsystem.moveArmToPosition(1000, 0.75);
                         timer.reset();
                     }
                 } else { // If the arm is moving
-                    if (timer.seconds() > 1) { // Wait for arm to finish moving
-                        motor.setPower(0); // Stop arm motor
+                    if (!manipulatorSubsystem.isArmBusy()) { // Wait for arm to finish
                         movingArm = false;
                         startedUp = false; // Reset for next operation
                     }
                 }
             } else if (startedDown) { // If the sequence to move arm down has started
-                if (movingArm) { // If the arm is moving down
-                    if (timer.seconds() > 1) { // Wait for arm to finish moving down
-                        movingArm = false;
+                if (movingClaw) { // If the claw is moving
+                    if (timer.seconds() > 0.5) { // Wait for claw to finish
+                        movingArm = true;
                         movingClawPitch = true;
-                        movingClaw = true;
-                        motor.setPower(0); // Stop arm motor
-                        clawPitch.setPosition(0.1); // Claw pitch to intake
-                                                    // position
-                        claw.setPosition(0.25); // Open claw
+                        movingClaw = false;
+                        manipulatorSubsystem.pitchClawToIntake();
+                        manipulatorSubsystem.moveArmToPosition(0, -0.5);
                         timer.reset();
                     }
-                } else { // If the claw pitch and claw are moving
-                    if (timer.seconds() > 0.5) { // Wait for claw pitch and claw to finish moving
-                        movingClaw = false;
+                } else { // If the arm and claw pitch are moving
+                    if (!manipulatorSubsystem.isArmBusy()) { // Wait for arm and claw pitch to finish moving
+                        movingArm = false;
                         movingClawPitch = false;
                         startedDown = false; // Reset for next operation
                     }
@@ -89,19 +78,22 @@ public class CompoundControlOpMode extends LinearOpMode {
                 if (gamepad1.dpad_up) { // Start the sequence to move arm up
                     startedUp = true;
                     movingClaw = true;
-                    claw.setPosition(0); // Close claw
+                    manipulatorSubsystem.closeClaw();
                     timer.reset();
                 } else if (gamepad1.dpad_down) { // Start the sequence to move arm down
                     startedDown = true;
-                    movingArm = true;
-                    motor.setPower(-0.5); // Move arm down
+                    movingClaw = true;
+                    manipulatorSubsystem.pitchClawToIntake();
                     timer.reset();
                 }
             }
 
-            telemetry.addData("Claw position", claw.getPosition());
-            telemetry.addData("Claw Pitch position", clawPitch.getPosition());
-            telemetry.addData("Arm power", motor.getPower());
+            telemetry.addData("Claw position",
+                    manipulatorSubsystem.claw.getPosition());
+            telemetry.addData("Claw Pitch position",
+                    manipulatorSubsystem.clawPitch.getPosition());
+            telemetry.addData("Arm power",
+                    manipulatorSubsystem.motor.getPower());
             telemetry.addLine();
             telemetry.addData("Claw moving", movingClaw);
             telemetry.addData("Claw Pitch moving", movingClawPitch);
