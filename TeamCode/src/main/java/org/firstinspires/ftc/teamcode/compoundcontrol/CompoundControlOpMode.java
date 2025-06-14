@@ -2,13 +2,10 @@ package org.firstinspires.ftc.teamcode.compoundcontrol;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
-import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 // This is an opmode that combines control of a claw and an arm with more complex logic.
-@TeleOp(name="Compound Control OpMode", group="Linear OpMode")
+@TeleOp(name = "Compound Control OpMode", group = "Linear OpMode")
 public class CompoundControlOpMode extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
@@ -74,18 +71,16 @@ public class CompoundControlOpMode extends LinearOpMode {
                         startedDown = false; // Reset for next operation
                     }
                 }
-            } else {
-                if (gamepad1.dpad_up) { // Start the sequence to move arm up
-                    startedUp = true;
-                    movingClaw = true;
-                    manipulatorSubsystem.closeClaw();
-                    timer.reset();
-                } else if (gamepad1.dpad_down) { // Start the sequence to move arm down
-                    startedDown = true;
-                    movingClaw = true;
-                    manipulatorSubsystem.pitchClawToIntake();
-                    timer.reset();
-                }
+            } else if (gamepad1.dpad_up) { // Start the sequence to move arm up
+                startedUp = true;
+                movingClaw = true;
+                manipulatorSubsystem.closeClaw();
+                timer.reset();
+            } else if (gamepad1.dpad_down) { // Start the sequence to move arm down
+                startedDown = true;
+                movingClaw = true;
+                manipulatorSubsystem.pitchClawToIntake();
+                timer.reset();
             }
 
             telemetry.addData("Claw position",

@@ -32,28 +32,51 @@ public class ManipulatorSubsystem {
         motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
     }
 
+    /**
+     * Opens the claw.
+     */
     public void openClaw() {
         claw.setPosition(0.25);
     }
 
+    /**
+     * Closes the claw.
+     */
     public void closeClaw() {
         claw.setPosition(0);
     }
 
+    /**
+     * Pitches the claw to the drop position.
+     */
     public void pitchClawToDrop() {
         clawPitch.setPosition(0.5);
     }
 
+    /**
+     * Pitches the claw to the intake position.
+     */
     public void pitchClawToIntake() {
         clawPitch.setPosition(0.1);
     }
 
+    /**
+     * Moves the arm to a specified position with a given power.
+     *
+     * @param position The target position for the arm.
+     * @param power The power to apply to the motor.
+     */
     public void moveArmToPosition(int position, double power) {
         motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         motor.setTargetPosition(position);
         motor.setPower(power);
     }
 
+    /**
+     * Checks if the arm motor is currently busy (i.e., moving to a target position).
+     *
+     * @return true if the arm motor is busy, false otherwise.
+     */
     public boolean isArmBusy() {
         return motor.isBusy();
     }
