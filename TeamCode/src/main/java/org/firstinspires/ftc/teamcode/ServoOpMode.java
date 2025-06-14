@@ -6,19 +6,14 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 
-// This is a simple control OpMode that allows for basic operations of a claw and arm.
-@TeleOp(name="Simple Control OpMode", group="Linear OpMode")
-public class SimpleControlOpMode extends LinearOpMode {
+// This is a simple control OpMode that allows for basic operations of servos
+// on a claw
+@TeleOp(name="Servo OpMode", group="Linear OpMode")
+public class ServoOpMode extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         Servo claw = hardwareMap.servo.get("claw_servo");
         Servo clawPitch = hardwareMap.servo.get( "claw_pitch_servo");
-        DcMotor motor = hardwareMap.dcMotor.get("arm_motor");
-
-        // This sets the motor to brake when no power is applied, which is
-        // useful for holding the arm in place when not moving.
-        motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        motor.setDirection(DcMotorSimple.Direction.REVERSE);
 
         waitForStart();
 
@@ -41,14 +36,8 @@ public class SimpleControlOpMode extends LinearOpMode {
                 clawPitch.setPosition(0.5);
             }
 
-            // Arm operation
-            // Decreased sensitivity so the arm doesn't go flying off; tweak as needed
-            double armPower = -0.75 * gamepad1.left_stick_y;
-            motor.setPower(armPower);
-
             telemetry.addData("Claw position", claw.getPosition());
             telemetry.addData("Claw Pitch position", clawPitch.getPosition());
-            telemetry.addData("Arm power", motor.getPower());
 
             telemetry.update();
         }
