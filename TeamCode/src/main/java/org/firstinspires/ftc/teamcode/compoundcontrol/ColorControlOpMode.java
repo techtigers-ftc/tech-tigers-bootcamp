@@ -36,9 +36,9 @@ public class ColorControlOpMode extends LinearOpMode {
                 moveUpCommand.execute();
             } else if (!moveDownCommand.isFinished()) { // If the sequence to move arm down has started
                 moveDownCommand.execute();
-            } else if (blue > 1000) {
+            } else if (blue > 1000) { // If the blue is intense enough, move the arm up
                 moveUpCommand.initialize();
-            } else if (red > 1000) {
+            } else if (red > 1000) { // If the red is intense enough, move the arm down
                 moveDownCommand.initialize();
             }
 
