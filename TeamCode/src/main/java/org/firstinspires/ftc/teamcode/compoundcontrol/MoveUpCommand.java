@@ -63,13 +63,13 @@ public class MoveUpCommand {
             if (timer.seconds() > 0.5) {
                 movingClawPitch = false;
                 movingArm = true;
-                manipulatorSubsystem.moveArmToPosition(1000, 0.75);
+                manipulatorSubsystem.moveArmToDrop();
                 timer.reset();
             }
         } else { // If the arm is moving
             if (!manipulatorSubsystem.isArmBusy()) { // Wait for arm to finish
                 movingArm = false;
-                isFinished = false; // Reset for next operation
+                isFinished = true; // Reset for next operation
             }
         }
 

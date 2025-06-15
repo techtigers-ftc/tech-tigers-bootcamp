@@ -58,7 +58,7 @@ public class MoveDownCommand {
                 movingClawPitch = true;
                 movingClaw = false;
                 manipulatorSubsystem.pitchClawToIntake();
-                manipulatorSubsystem.moveArmToPosition(0, -0.5);
+                manipulatorSubsystem.moveArmToIntake();
                 timer.reset();
             }
         } else { // If the arm and claw pitch are moving

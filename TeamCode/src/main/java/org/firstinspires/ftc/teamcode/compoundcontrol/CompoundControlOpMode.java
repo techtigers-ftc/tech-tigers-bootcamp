@@ -43,6 +43,8 @@ public class CompoundControlOpMode extends LinearOpMode {
                     manipulatorSubsystem.clawPitch.getPosition());
             telemetry.addData("Arm power",
                     manipulatorSubsystem.motor.getPower());
+            telemetry.addData("Arm position",
+                    manipulatorSubsystem.motor.getCurrentPosition());
 
             telemetry.update();
         }
