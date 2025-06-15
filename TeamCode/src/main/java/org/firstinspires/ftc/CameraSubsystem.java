@@ -13,16 +13,14 @@ import org.opencv.core.Scalar;
 
 public class CameraSubsystem extends SubsystemBase {
 
-    private WebcamName camera;
-    private Scalar lowerBound = new Scalar(155, 0, 0); // Lower HSV bound
-    private Scalar upperBound = new Scalar(255, 255, 255); // Upper HSV bound
+    private Scalar lowerBound = new Scalar(90, 150, 20); // Lower HSV bound
+    private Scalar upperBound = new Scalar(140, 255, 255); // Upper HSV bound
     private Size cameraResolution = new Size(640, 480);
     private final VisionPortal visionPortal;// Camera resolution
     private final ColorFilterPipeline pipeline;
     private boolean objectDetected = false; // Flag to indicate object detection
 
     public CameraSubsystem(HardwareMap hardwareMap) {
-        camera = hardwareMap.get(WebcamName.class, "camera");
 
         pipeline = new ColorFilterPipeline(
                 lowerBound, // Lower HSV bound

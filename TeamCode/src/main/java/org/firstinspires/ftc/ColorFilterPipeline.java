@@ -34,28 +34,11 @@ public class ColorFilterPipeline implements VisionProcessor {
     @Override
     public Object processFrame(Mat frame, long captureTimeNanos) {
         // Convert the frame to HSV color space
-        Mat hsvFrame = new Mat();
-        Imgproc.cvtColor(frame, hsvFrame, Imgproc.COLOR_BGR2HSV);
+        Imgproc.cvtColor(frame, frame, Imgproc.COLOR_RGB2HSV);
 
-        // Apply the color filter
-        Mat mask = new Mat();
-        Core.inRange(hsvFrame, lowerBound, upperBound, mask);
+        Core.inRange(frame, lowerBound, upperBound, frame);
 
-        // Find contours in the mask
-        List<MatOfPoint> contours = new ArrayList<>();
-        Mat hierarchy = new Mat();
-        Imgproc.findContours(mask, contours, hierarchy, Imgproc.RETR_EXTERNAL, Imgproc.CHAIN_APPROX_SIMPLE);
-
-        // Analyze contours and check if any valid objects are detected
-        objectDetected = false;
-        for (MatOfPoint contour : contours) {
-            double area = Imgproc.contourArea(contour);
-            if (area > 50) { // Filter out small blobs
-                objectDetected = true;
-                break;
-            }
-        }
-        return mask; // Return the mask as the processed frame
+        return frame; // Return the mask as the processed frame
     }
 
     public boolean isObjectDetected() {
