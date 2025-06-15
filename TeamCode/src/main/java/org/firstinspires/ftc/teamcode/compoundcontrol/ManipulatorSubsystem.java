@@ -29,6 +29,8 @@ public class ManipulatorSubsystem {
         motor.setDirection(DcMotorSimple.Direction.REVERSE);
 
         motor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        motor.setTargetPosition(0);
         motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
     }
 
@@ -36,7 +38,7 @@ public class ManipulatorSubsystem {
      * Opens the claw.
      */
     public void openClaw() {
-        claw.setPosition(0.25);
+        claw.setPosition(0.15);
     }
 
     /**
@@ -57,19 +59,25 @@ public class ManipulatorSubsystem {
      * Pitches the claw to the intake position.
      */
     public void pitchClawToIntake() {
-        clawPitch.setPosition(0.1);
+        clawPitch.setPosition(0.2);
     }
 
     /**
-     * Moves the arm to a specified position with a given power.
-     *
-     * @param position The target position for the arm.
-     * @param power The power to apply to the motor.
+     * Moves the arm to the drop position
      */
-    public void moveArmToPosition(int position, double power) {
+    public void moveArmToDrop() {
+        motor.setTargetPosition(2000);
         motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        motor.setTargetPosition(position);
-        motor.setPower(power);
+        motor.setPower(0.75);
+    }
+
+    /**
+     * Moves the arm to the intake position
+     */
+    public void moveArmToIntake() {
+        motor.setTargetPosition(0);
+        motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        motor.setPower(0.75);
     }
 
     /**
