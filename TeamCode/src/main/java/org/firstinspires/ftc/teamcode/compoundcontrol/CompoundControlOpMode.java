@@ -1,11 +1,14 @@
 package org.firstinspires.ftc.teamcode.compoundcontrol;
 
+import com.qualcomm.hardware.rev.RevColorSensorV3;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
+
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 // This is an opmode that combines control of a claw and an arm with more complex logic.
 @TeleOp(name="Compound Control OpMode", group="Linear OpMode")
@@ -37,6 +40,21 @@ public class CompoundControlOpMode extends LinearOpMode {
                 moveDownCommand.initialize();
             }
 
+
+            // Moving things based on sensor input
+            RevColorSensorV3 colorSensor = hardwareMap.get(RevColorSensorV3.class, "color_sensor");
+            double distance = colorSensor.getDistance(DistanceUnit.CM);
+            double red = colorSensor.red();
+
+            if (distance < 10) {
+                moveUpCommand.initialize();
+            } else if (red > 1000) {
+                moveDownCommand.initialize();
+            }
+
+            telemetry.addData("Distance (cm)", distance);
+            telemetry.addData("Red value", red);
+            telemetry.addLine();
             telemetry.addData("Claw position",
                     manipulatorSubsystem.claw.getPosition());
             telemetry.addData("Claw Pitch position",
