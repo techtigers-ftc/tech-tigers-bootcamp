@@ -16,20 +16,20 @@ public class ServoOpMode extends LinearOpMode {
         waitForStart();
 
         // Start servos AFTER start is pressed
-        claw.setPosition(0.25);
-        clawPitch.setPosition(0.1);
+        claw.setPosition(0.15);
+        clawPitch.setPosition(0.2);
 
         while (opModeIsActive()) {
             // Claw open/close operation
             if (gamepad1.a) {
                 claw.setPosition(0);
             } else if (gamepad1.b) {
-                claw.setPosition(0.25);
+                claw.setPosition(0.15);
             }
 
             // Claw Pitch operation
             if (gamepad1.x) {
-                clawPitch.setPosition(0.1);
+                clawPitch.setPosition(0.2);
             } else if (gamepad1.y) {
                 clawPitch.setPosition(0.5);
             }

@@ -45,7 +45,7 @@ public class CompoundControlOpMode extends LinearOpMode {
                     if (timer.seconds() > 0.5) {
                         movingClawPitch = false;
                         movingArm = true;
-                        manipulatorSubsystem.moveArmToPosition(1000, 0.75);
+                        manipulatorSubsystem.moveArmToDrop();
                         timer.reset();
                     }
                 } else { // If the arm is moving
@@ -61,7 +61,7 @@ public class CompoundControlOpMode extends LinearOpMode {
                         movingClawPitch = true;
                         movingClaw = false;
                         manipulatorSubsystem.pitchClawToIntake();
-                        manipulatorSubsystem.moveArmToPosition(0, -0.5);
+                        manipulatorSubsystem.moveArmToIntake();
                         timer.reset();
                     }
                 } else { // If the arm and claw pitch are moving
@@ -79,7 +79,7 @@ public class CompoundControlOpMode extends LinearOpMode {
             } else if (gamepad1.dpad_down) { // Start the sequence to move arm down
                 startedDown = true;
                 movingClaw = true;
-                manipulatorSubsystem.pitchClawToIntake();
+                manipulatorSubsystem.openClaw();
                 timer.reset();
             }
 
@@ -89,6 +89,8 @@ public class CompoundControlOpMode extends LinearOpMode {
                     manipulatorSubsystem.clawPitch.getPosition());
             telemetry.addData("Arm power",
                     manipulatorSubsystem.motor.getPower());
+            telemetry.addData("Arm position",
+                    manipulatorSubsystem.motor.getCurrentPosition());
             telemetry.addLine();
             telemetry.addData("Claw moving", movingClaw);
             telemetry.addData("Claw Pitch moving", movingClawPitch);

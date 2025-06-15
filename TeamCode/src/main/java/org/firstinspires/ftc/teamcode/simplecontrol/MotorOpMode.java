@@ -28,15 +28,13 @@ public class MotorOpMode extends LinearOpMode {
 
         while (opModeIsActive()) {
             if (gamepad1.dpad_up) {
+                motor.setTargetPosition(2000); // Move arm to position 1000
                 motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
                 motor.setPower(0.75);
-                motor.setTargetPosition(1000); // Move arm to position 1000
             } else if (gamepad1.dpad_down) {
-                motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-                motor.setPower(-0.75);
                 motor.setTargetPosition(0); // Move arm back to position 0
+                motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                motor.setPower(0.75);
             }
 
             if (!motor.isBusy() && gamepad1.left_stick_y != 0) {
