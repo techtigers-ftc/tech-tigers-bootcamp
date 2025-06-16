@@ -1,11 +1,13 @@
 package org.firstinspires;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Pose2D;
 
+@TeleOp(name = "LocalisationTestOpMode")
 public class LocalisationTestOpMode extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
@@ -23,7 +25,7 @@ public class LocalisationTestOpMode extends LinearOpMode {
 
             // Get the current pose
             Pose2D currentPose = odometrySubsystem.getCurrentPose();
-            Pose2D currentVelocity = odometrySubsystem.getCurrentPose();
+            Pose2D currentVelocity = odometrySubsystem.getCurrentVelocity();
 
 
             // Display the current pose on telemetry

@@ -34,7 +34,7 @@ public class OdometrySubsystem {
         the tracking point the Y (strafe) odometry pod is. forward of center is a positive number,
         backwards is a negative number.
          */
-        odo.setOffsets(30, 88.9);
+        odo.setOffsets(0, 53);
 
         /*
         Set the kind of pods used by your robot. If you're using goBILDA odometry pods, select either
