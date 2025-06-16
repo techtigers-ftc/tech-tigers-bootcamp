@@ -12,6 +12,8 @@ import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 public class DistanceControlOpMode extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
+        RobotState robotState = new RobotState();
+        SensorSubsystem sensorSubsystem = new SensorSubsystem(hardwareMap, robotState);
         ManipulatorSubsystem manipulatorSubsystem = new ManipulatorSubsystem(hardwareMap);
         MoveUpCommand moveUpCommand =
                 new MoveUpCommand(manipulatorSubsystem, telemetry);
@@ -27,9 +29,11 @@ public class DistanceControlOpMode extends LinearOpMode {
         timer.reset();
 
         while (opModeIsActive()) {
-            // Moving things based on sensor input
-            RevColorSensorV3 colorSensor = hardwareMap.get(RevColorSensorV3.class, "color_sensor");
-            double distance = colorSensor.getDistance(DistanceUnit.CM);
+            // Calls the periodic of the sensor subsystem to update sensor values
+            sensorSubsystem.periodic();
+
+            // Gets the distance value from the robot state
+            double distance = robotState.getDistance();
 
             if (!moveUpCommand.isFinished()) { // If the sequence to move arm // up has started
                 moveUpCommand.execute();

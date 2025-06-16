@@ -12,7 +12,9 @@ import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 public class ColorControlOpMode extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
+        RobotState robotState = new RobotState();
         ManipulatorSubsystem manipulatorSubsystem = new ManipulatorSubsystem(hardwareMap);
+        SensorSubsystem sensorSubsystem = new SensorSubsystem(hardwareMap, robotState);
         MoveUpCommand moveUpCommand =
                 new MoveUpCommand(manipulatorSubsystem, telemetry);
         MoveDownCommand moveDownCommand =
@@ -27,10 +29,13 @@ public class ColorControlOpMode extends LinearOpMode {
         timer.reset();
 
         while (opModeIsActive()) {
-            // Moving things based on sensor input
-            RevColorSensorV3 colorSensor = hardwareMap.get(RevColorSensorV3.class, "color_sensor");
-            double red = colorSensor.red();
-            double blue = colorSensor.blue();
+            // Calls the periodic of the sensor subsystem to update sensor values
+            sensorSubsystem.periodic();
+
+            // Gets the red and blue values from the robot state
+           int red = robotState.getRed();
+           int blue = robotState.getBlue();
+
 
             if (!moveUpCommand.isFinished()) { // If the sequence to move arm // up has started
                 moveUpCommand.execute();
