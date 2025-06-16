@@ -28,7 +28,7 @@ public class ColorFilterPipeline implements VisionProcessor {
 
     @Override
     public void init(int width, int height, CameraCalibration calibration) {
-
+        // This implementation does not require this
     }
 
     @Override
@@ -47,6 +47,6 @@ public class ColorFilterPipeline implements VisionProcessor {
 
     @Override
     public void onDrawFrame(Canvas canvas, int onscreenWidth, int onscreenHeight, float scaleBmpPxToCanvasPx, float scaleCanvasDensity, Object userContext) {
-
+        // This implementation does not require this
     }
 }

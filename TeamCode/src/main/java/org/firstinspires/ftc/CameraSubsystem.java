@@ -8,6 +8,11 @@ import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.vision.VisionPortal;
 import org.opencv.core.Scalar;
 
+/**
+ * CameraSubsystem is a class that manages the camera subsystem for detecting objects
+ * using OpenCV color filtering. It initializes the camera, sets up the color filter pipeline,
+ * and provides methods to check if an object is detected.
+ */
 public class CameraSubsystem {
 
     private Scalar lowerBound = new Scalar(90, 150, 20); // Lower HSV bound
@@ -16,6 +21,10 @@ public class CameraSubsystem {
     private final VisionPortal visionPortal;// Camera resolution
     private final ColorFilterPipeline pipeline;
 
+    /**
+     * Constructor for CameraSubsystem.
+     * @param hardwareMap The hardware map containing the camera configuration.
+     */
     public CameraSubsystem(HardwareMap hardwareMap) {
 
         pipeline = new ColorFilterPipeline(
@@ -30,12 +39,10 @@ public class CameraSubsystem {
                 .build();
     }
 
+    /**
+     * Stops the camera subsystem by opening the vision portal.
+     */
     public void stop(){
         visionPortal.close();
     }
-
-    public boolean isObjectDetected() {
-        return pipeline.isObjectDetected();
-    }
-
 }
