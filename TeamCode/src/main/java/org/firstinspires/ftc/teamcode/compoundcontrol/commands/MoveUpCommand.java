@@ -1,8 +1,9 @@
-package org.firstinspires.ftc.teamcode.compoundcontrol;
+package org.firstinspires.ftc.teamcode.compoundcontrol.commands;
 
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.teamcode.compoundcontrol.subsystems.ManipulatorSubsystem;
 
 /**
  * Command to move the manipulator arm up, close the claw, and pitch the claw
