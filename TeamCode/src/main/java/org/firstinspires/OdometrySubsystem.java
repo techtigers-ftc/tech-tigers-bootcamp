@@ -10,6 +10,10 @@ public class OdometrySubsystem {
 
     private Pose2D startPose;
     private final GoBildaPinpointDriver odo;
+    private Pose2D robotPose;
+    private Pose2D robotVelocity;
+    private RobotState robotState;
+
 
 
     /**
@@ -18,8 +22,9 @@ public class OdometrySubsystem {
      * @param hardwareMap The hardware map, used to get hardware references
      * @param startPose   The starting pose of the robot.
      */
-    public OdometrySubsystem(HardwareMap hardwareMap, Pose2D startPose) {
+    public OdometrySubsystem(HardwareMap hardwareMap, RobotState robotState, Pose2D startPose) {
         this.startPose = startPose;
+        this.robotState = robotState;
 
         // Initialize the hardware variables. Note that the strings used here must correspond
         // to the names assigned during the robot configuration step on the DS or RC devices.
@@ -34,7 +39,7 @@ public class OdometrySubsystem {
         the tracking point the Y (strafe) odometry pod is. forward of center is a positive number,
         backwards is a negative number.
          */
-        odo.setOffsets(0, 53);
+        odo.setOffsets(56, 0);
 
         /*
         Set the kind of pods used by your robot. If you're using goBILDA odometry pods, select either
@@ -43,7 +48,7 @@ public class OdometrySubsystem {
         number of ticks per mm of your odometry pod.
          */
         odo.setEncoderResolution(GoBildaPinpointDriver.GoBildaOdometryPods.goBILDA_4_BAR_POD);
-        //odo.setEncoderResolution(13.26291192);
+//        odo.setEncoderResolution(13.26291192);
 
 
         /*
@@ -62,11 +67,10 @@ public class OdometrySubsystem {
         This is recommended before you run your autonomous, as a bad initial calibration can cause
         an incorrect starting value for x, y, and heading.
          */
-        //odo.recalibrateIMU();
+//        odo.recalibrateIMU();
         odo.resetPosAndIMU();
 
-//        startPose = new Waypoint(startPose.getX()*25.4, startPose.getY()*25.4, startPose.getHeading());
-//        odo.setPosition(startPose);
+
     }
 
     public void periodic() {
@@ -82,18 +86,21 @@ public class OdometrySubsystem {
         double yVelocity = odo.getVelY();
         double headingVelocity = odo.getHeadingVelocity();
 
-        // Get the current position in mm
+        // Get the current position in inches and degrees
 
-        Pose2D robotPose = new Pose2D(DistanceUnit.MM, x, y, AngleUnit.RADIANS, heading);
+        robotPose = new Pose2D(DistanceUnit.INCH, x/25.4, y/25.4, AngleUnit.RADIANS, heading);
 
-        Pose2D robotVelocity = new Pose2D(DistanceUnit.MM, x, y, AngleUnit.RADIANS, heading);
+        robotVelocity = new Pose2D(DistanceUnit.INCH, xVelocity/25.4, yVelocity/25.4, AngleUnit.RADIANS, headingVelocity);
+
+        robotState.setRobotPose(robotPose);
+        robotState.setRobotVelocity(robotVelocity);
     }
 
     public Pose2D getCurrentPose() {
-        return new Pose2D(DistanceUnit.MM, odo.getPosX(), odo.getPosY(), AngleUnit.RADIANS, odo.getHeading());
+        return robotPose;
     }
 
     public Pose2D getCurrentVelocity() {
-        return new Pose2D(DistanceUnit.MM, odo.getVelX(), odo.getVelY(), AngleUnit.RADIANS, odo.getHeadingVelocity());
+        return robotVelocity;
     }
 }

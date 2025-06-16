@@ -9,11 +9,13 @@ import org.firstinspires.ftc.robotcore.external.navigation.Pose2D;
 
 @TeleOp(name = "LocalisationTestOpMode")
 public class LocalisationTestOpMode extends LinearOpMode {
+    private RobotState robotState;
     @Override
     public void runOpMode() throws InterruptedException {
         // Initialize the odometry subsystem
-        OdometrySubsystem odometrySubsystem = new OdometrySubsystem(hardwareMap, new Pose2D(DistanceUnit.MM,0, 0,
-                AngleUnit.RADIANS, 0));
+        robotState = new RobotState();
+        OdometrySubsystem odometrySubsystem = new OdometrySubsystem(hardwareMap, robotState,
+                new Pose2D(DistanceUnit.INCH,0, 0, AngleUnit.RADIANS, 0));
 
         // Wait for the start signal
         waitForStart();
@@ -24,13 +26,18 @@ public class LocalisationTestOpMode extends LinearOpMode {
             odometrySubsystem.periodic();
 
             // Get the current pose
-            Pose2D currentPose = odometrySubsystem.getCurrentPose();
-            Pose2D currentVelocity = odometrySubsystem.getCurrentVelocity();
+            Pose2D currentPose = robotState.getRobotPose();
+            Pose2D currentVelocity = robotState.getRobotVelocity();
 
 
             // Display the current pose on telemetry
-            telemetry.addData("Current Pose", currentPose);
-            telemetry.addData("Current Velocity", currentVelocity);
+            telemetry.addData("Current X", currentPose.getX(DistanceUnit.INCH));
+            telemetry.addData("Current Y", currentPose.getY(DistanceUnit.INCH));
+            telemetry.addData("Current Heading", currentPose.getHeading(AngleUnit.DEGREES));
+            telemetry.addLine();
+            telemetry.addData("X Velocity", currentVelocity.getX(DistanceUnit.INCH));
+            telemetry.addData("Y Velocity", currentVelocity.getY(DistanceUnit.INCH));
+            telemetry.addData("Heading Velocity", currentVelocity.getHeading(AngleUnit.DEGREES));
 
             telemetry.update();
         }
