@@ -9,9 +9,8 @@ import org.firstinspires.ftc.vision.VisionPortal;
 import org.opencv.core.Scalar;
 
 /**
- * CameraSubsystem is a class that manages the camera subsystem for detecting objects
+ * CameraSubsystem is a class that manages the camera for detecting objects
  * using OpenCV color filtering. It initializes the camera, sets up the color filter pipeline,
- * and provides methods to check if an object is detected.
  */
 public class CameraSubsystem {
 
@@ -23,7 +22,7 @@ public class CameraSubsystem {
 
     /**
      * Constructor for CameraSubsystem.
-     * @param hardwareMap The hardware map containing the camera configuration.
+     * @param hardwareMap The hardware map to access the robot's hardware
      */
     public CameraSubsystem(HardwareMap hardwareMap) {
 
@@ -40,7 +39,7 @@ public class CameraSubsystem {
     }
 
     /**
-     * Stops the camera subsystem by opening the vision portal.
+     * Stops the camera subsystem by closing the vision portal.
      */
     public void stop(){
         visionPortal.close();
