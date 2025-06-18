@@ -69,7 +69,9 @@ public class OdometrySubsystem {
          */
 //        odo.recalibrateIMU();
         odo.resetPosAndIMU();
-
+        startPose = new Pose2D(DistanceUnit.INCH,startPose.getX(DistanceUnit.INCH),
+                startPose.getY(DistanceUnit.INCH),AngleUnit.DEGREES, startPose.getHeading(AngleUnit.DEGREES));
+        odo.setPosition(startPose);
 
     }
 
