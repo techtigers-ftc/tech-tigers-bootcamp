@@ -7,6 +7,9 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Pose2D;
 
+/**
+ * This OpMode is used to test the localisation subsystem of the robot.
+ */
 @TeleOp(name = "LocalisationTestOpMode")
 public class LocalisationTestOpMode extends LinearOpMode {
     private RobotState robotState;

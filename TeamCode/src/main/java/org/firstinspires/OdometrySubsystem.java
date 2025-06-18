@@ -95,12 +95,4 @@ public class OdometrySubsystem {
         robotState.setRobotPose(robotPose);
         robotState.setRobotVelocity(robotVelocity);
     }
-
-    public Pose2D getCurrentPose() {
-        return robotPose;
-    }
-
-    public Pose2D getCurrentVelocity() {
-        return robotVelocity;
-    }
 }
