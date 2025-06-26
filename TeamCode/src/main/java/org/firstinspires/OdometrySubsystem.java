@@ -5,16 +5,15 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Pose2D;
+import org.firstinspires.ftc.robotcore.external.navigation.UnnormalizedAngleUnit;
 
+/**
+ * A subsystem for managing odometry using the GoBILDA Pinpoint odometry system.
+ * This subsystem tracks the robot's position and velocity in a 2D space.
+ */
 public class OdometrySubsystem {
-
-    private Pose2D startPose;
     private final GoBildaPinpointDriver odo;
-    private Pose2D robotPose;
-    private Pose2D robotVelocity;
-    private RobotState robotState;
-
-
+    private final RobotState robotState;
 
     /**
      * Initializes a new OdometrySubsystem.
@@ -23,7 +22,6 @@ public class OdometrySubsystem {
      * @param startPose   The starting pose of the robot.
      */
     public OdometrySubsystem(HardwareMap hardwareMap, RobotState robotState, Pose2D startPose) {
-        this.startPose = startPose;
         this.robotState = robotState;
 
         // Initialize the hardware variables. Note that the strings used here must correspond
@@ -39,7 +37,7 @@ public class OdometrySubsystem {
         the tracking point the Y (strafe) odometry pod is. forward of center is a positive number,
         backwards is a negative number.
          */
-        odo.setOffsets(56, 0);
+        odo.setOffsets(56, 0, DistanceUnit.MM);
 
         /*
         Set the kind of pods used by your robot. If you're using goBILDA odometry pods, select either
@@ -81,18 +79,20 @@ public class OdometrySubsystem {
 
         // Get the current position and heading velocities
 
-        double heading = odo.getHeading();
-        double x = odo.getPosX();
-        double y = odo.getPosY();
-        double xVelocity = odo.getVelX();
-        double yVelocity = odo.getVelY();
-        double headingVelocity = odo.getHeadingVelocity();
+        double heading = odo.getHeading(AngleUnit.RADIANS);
+        double x = odo.getPosX(DistanceUnit.INCH);
+        double y = odo.getPosY(DistanceUnit.INCH);
+        double headingVelocity = odo.getHeadingVelocity(UnnormalizedAngleUnit.RADIANS);
+        double xVelocity = odo.getVelX(DistanceUnit.INCH);
+        double yVelocity = odo.getVelY(DistanceUnit.INCH);
 
         // Get the current position in inches and degrees
 
-        robotPose = new Pose2D(DistanceUnit.INCH, x/25.4, y/25.4, AngleUnit.RADIANS, heading);
+        Pose2D robotPose = new Pose2D(DistanceUnit.INCH, x, y,
+                AngleUnit.RADIANS, heading);
 
-        robotVelocity = new Pose2D(DistanceUnit.INCH, xVelocity/25.4, yVelocity/25.4, AngleUnit.RADIANS, headingVelocity);
+        Pose2D robotVelocity = new Pose2D(DistanceUnit.INCH, xVelocity,
+                yVelocity, AngleUnit.RADIANS, headingVelocity);
 
         robotState.setRobotPose(robotPose);
         robotState.setRobotVelocity(robotVelocity);
