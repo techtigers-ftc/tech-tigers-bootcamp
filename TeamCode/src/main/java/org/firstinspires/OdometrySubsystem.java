@@ -6,11 +6,14 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Pose2D;
 
+/**
+ * A subsystem for managing odometry using the GoBILDA Pinpoint odometry system.
+ * This subsystem tracks the robot's position and velocity in a 2D space.
+ */
 public class OdometrySubsystem {
-
     private Pose2D startPose;
     private final GoBildaPinpointDriver odo;
-
+    private final RobotState robotState;
 
     /**
      * Initializes a new OdometrySubsystem.
@@ -18,7 +21,9 @@ public class OdometrySubsystem {
      * @param hardwareMap The hardware map, used to get hardware references
      * @param startPose   The starting pose of the robot.
      */
-    public OdometrySubsystem(HardwareMap hardwareMap, Pose2D startPose) {
+    public OdometrySubsystem(HardwareMap hardwareMap,
+                             RobotState robotState, Pose2D startPose) {
+        this.robotState = robotState;
         this.startPose = startPose;
 
         // Initialize the hardware variables. Note that the strings used here must correspond
@@ -69,31 +74,14 @@ public class OdometrySubsystem {
 //        odo.setPosition(startPose);
     }
 
+    /**
+     * Updates the odometry position and velocity.
+     */
     public void periodic() {
         // Update the odometry position
         odo.update();
 
-        // Get the current position and heading velocities
-
-        double heading = odo.getHeading();
-        double x = odo.getPosX();
-        double y = odo.getPosY();
-        double xVelocity = odo.getVelX();
-        double yVelocity = odo.getVelY();
-        double headingVelocity = odo.getHeadingVelocity();
-
-        // Get the current position in mm
-
-        Pose2D robotPose = new Pose2D(DistanceUnit.MM, x, y, AngleUnit.RADIANS, heading);
-
-        Pose2D robotVelocity = new Pose2D(DistanceUnit.MM, x, y, AngleUnit.RADIANS, heading);
-    }
-
-    public Pose2D getCurrentPose() {
-        return new Pose2D(DistanceUnit.MM, odo.getPosX(), odo.getPosY(), AngleUnit.RADIANS, odo.getHeading());
-    }
-
-    public Pose2D getCurrentVelocity() {
-        return new Pose2D(DistanceUnit.MM, odo.getVelX(), odo.getVelY(), AngleUnit.RADIANS, odo.getHeadingVelocity());
+        robotState.setCurrentPose(odo.getPosition());
+        robotState.setCurrentVelocity(odo.getVelocity());
     }
 }
