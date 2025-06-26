@@ -6,14 +6,15 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Pose2D;
 
-/**
- * A subsystem for managing odometry using the GoBILDA Pinpoint odometry system.
- * This subsystem tracks the robot's position and velocity in a 2D space.
- */
 public class OdometrySubsystem {
+
     private Pose2D startPose;
     private final GoBildaPinpointDriver odo;
-    private final RobotState robotState;
+    private Pose2D robotPose;
+    private Pose2D robotVelocity;
+    private RobotState robotState;
+
+
 
     /**
      * Initializes a new OdometrySubsystem.
@@ -21,10 +22,9 @@ public class OdometrySubsystem {
      * @param hardwareMap The hardware map, used to get hardware references
      * @param startPose   The starting pose of the robot.
      */
-    public OdometrySubsystem(HardwareMap hardwareMap,
-                             RobotState robotState, Pose2D startPose) {
-        this.robotState = robotState;
+    public OdometrySubsystem(HardwareMap hardwareMap, RobotState robotState, Pose2D startPose) {
         this.startPose = startPose;
+        this.robotState = robotState;
 
         // Initialize the hardware variables. Note that the strings used here must correspond
         // to the names assigned during the robot configuration step on the DS or RC devices.
@@ -39,7 +39,7 @@ public class OdometrySubsystem {
         the tracking point the Y (strafe) odometry pod is. forward of center is a positive number,
         backwards is a negative number.
          */
-        odo.setOffsets(0, 53);
+        odo.setOffsets(56, 0);
 
         /*
         Set the kind of pods used by your robot. If you're using goBILDA odometry pods, select either
@@ -48,7 +48,7 @@ public class OdometrySubsystem {
         number of ticks per mm of your odometry pod.
          */
         odo.setEncoderResolution(GoBildaPinpointDriver.GoBildaOdometryPods.goBILDA_4_BAR_POD);
-        //odo.setEncoderResolution(13.26291192);
+//        odo.setEncoderResolution(13.26291192);
 
 
         /*
@@ -67,21 +67,34 @@ public class OdometrySubsystem {
         This is recommended before you run your autonomous, as a bad initial calibration can cause
         an incorrect starting value for x, y, and heading.
          */
-        //odo.recalibrateIMU();
+//        odo.recalibrateIMU();
         odo.resetPosAndIMU();
+        startPose = new Pose2D(DistanceUnit.INCH,startPose.getX(DistanceUnit.INCH),
+                startPose.getY(DistanceUnit.INCH),AngleUnit.DEGREES, startPose.getHeading(AngleUnit.DEGREES));
+        odo.setPosition(startPose);
 
-//        startPose = new Waypoint(startPose.getX()*25.4, startPose.getY()*25.4, startPose.getHeading());
-//        odo.setPosition(startPose);
     }
 
-    /**
-     * Updates the odometry position and velocity.
-     */
     public void periodic() {
         // Update the odometry position
         odo.update();
 
-        robotState.setCurrentPose(odo.getPosition());
-        robotState.setCurrentVelocity(odo.getVelocity());
+        // Get the current position and heading velocities
+
+        double heading = odo.getHeading();
+        double x = odo.getPosX();
+        double y = odo.getPosY();
+        double xVelocity = odo.getVelX();
+        double yVelocity = odo.getVelY();
+        double headingVelocity = odo.getHeadingVelocity();
+
+        // Get the current position in inches and degrees
+
+        robotPose = new Pose2D(DistanceUnit.INCH, x/25.4, y/25.4, AngleUnit.RADIANS, heading);
+
+        robotVelocity = new Pose2D(DistanceUnit.INCH, xVelocity/25.4, yVelocity/25.4, AngleUnit.RADIANS, headingVelocity);
+
+        robotState.setRobotPose(robotPose);
+        robotState.setRobotVelocity(robotVelocity);
     }
 }

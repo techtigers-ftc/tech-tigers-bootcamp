@@ -4,52 +4,25 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Pose2D;
 
-/**
- * A class representing the state of the robot.
- */
 public class RobotState {
-    private Pose2D currentPose;
-    private Pose2D currentVelocity;
+    private Pose2D robotPose;
+    private Pose2D robotVelocity;
 
-    /**
-     * Constructs a new RobotState with default values.
-     */
     public RobotState() {
-        this.currentPose = new Pose2D(DistanceUnit.CM, 0, 0,
-                AngleUnit.DEGREES, 0);
-        this.currentVelocity = new Pose2D(DistanceUnit.CM, 0, 0,
-                AngleUnit.DEGREES, 0);
+        this.robotPose = new Pose2D(DistanceUnit.INCH,0, 0, AngleUnit.RADIANS,0);
+        this.robotVelocity = new Pose2D(DistanceUnit.INCH,0, 0, AngleUnit.RADIANS,0);
     }
 
-    /**
-     * @return the current pose of the robot.
-     */
-    public Pose2D getCurrentPose() {
-        return currentPose;
+    public Pose2D getRobotPose() {
+        return robotPose;
     }
-
-    /**
-     * Sets the current pose of the robot.
-     *
-     * @param currentPose the new pose to set.
-     */
-    public void setCurrentPose(Pose2D currentPose) {
-        this.currentPose = currentPose;
+    public void setRobotPose(Pose2D robotPose) {
+        this.robotPose = robotPose;
     }
-
-    /**
-     * @return the current velocity of the robot.
-     */
-    public Pose2D getCurrentVelocity() {
-        return currentVelocity;
+    public Pose2D getRobotVelocity() {
+        return robotVelocity;
     }
-
-    /**
-     * Sets the current velocity of the robot.
-     *
-     * @param currentVelocity the new velocity to set.
-     */
-    public void setCurrentVelocity(Pose2D currentVelocity) {
-        this.currentVelocity = currentVelocity;
+    public void setRobotVelocity(Pose2D robotVelocity) {
+        this.robotVelocity = robotVelocity;
     }
 }
