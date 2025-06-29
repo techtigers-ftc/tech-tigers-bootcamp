@@ -52,14 +52,14 @@ public class ManipulatorSubsystem {
      * Pitches the claw to the drop position.
      */
     public void pitchClawToDrop() {
-        clawPitch.setPosition(0.5);
+        clawPitch.setPosition(0.8);
     }
 
     /**
      * Pitches the claw to the intake position.
      */
     public void pitchClawToIntake() {
-        clawPitch.setPosition(0.2);
+        clawPitch.setPosition(0.35);
     }
 
     /**
@@ -75,7 +75,7 @@ public class ManipulatorSubsystem {
      * Moves the arm to the intake position
      */
     public void moveArmToIntake() {
-        motor.setTargetPosition(0);
+        motor.setTargetPosition(4800);
         motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         motor.setPower(0.75);
     }
