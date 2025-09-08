@@ -1,11 +1,11 @@
-package org.firstinspires.ftc.teamcode.compoundcontrol.subsystems;
+package org.firstinspires.ftc.teamcode.subsystems;
 
 import com.qualcomm.hardware.rev.RevColorSensorV3;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.RobotLog;
 
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
-import org.firstinspires.ftc.teamcode.compoundcontrol.RobotState;
+import org.firstinspires.ftc.teamcode.RobotState;
 
 /**
  * Subsystem for reading sensor values from a color sensor and updating the robot state.

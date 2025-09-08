@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.compoundcontrol;
+package org.firstinspires.ftc.teamcode;
 
 /**
  * Class that represents the state of the robot, including color and distance readings from the color sensor.

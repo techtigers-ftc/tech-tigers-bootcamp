@@ -1,14 +1,14 @@
-package org.firstinspires.ftc.teamcode.compoundcontrol.opmodes;
+package org.firstinspires.ftc.teamcode.opmodes;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.teamcode.compoundcontrol.subsystems.ManipulatorSubsystem;
-import org.firstinspires.ftc.teamcode.compoundcontrol.commands.MoveDownCommand;
-import org.firstinspires.ftc.teamcode.compoundcontrol.commands.MoveUpCommand;
-import org.firstinspires.ftc.teamcode.compoundcontrol.RobotState;
-import org.firstinspires.ftc.teamcode.compoundcontrol.subsystems.SensorSubsystem;
+import org.firstinspires.ftc.teamcode.subsystems.ManipulatorSubsystem;
+import org.firstinspires.ftc.teamcode.commands.MoveDownCommand;
+import org.firstinspires.ftc.teamcode.commands.MoveUpCommand;
+import org.firstinspires.ftc.teamcode.RobotState;
+import org.firstinspires.ftc.teamcode.subsystems.SensorSubsystem;
 
 // This is an opmode that combines control of a claw and an arm with more complex logic.
 @TeleOp(name="Distance Control OpMode", group="Linear OpMode")

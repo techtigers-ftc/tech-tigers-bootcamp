@@ -1,15 +1,15 @@
-package org.firstinspires.ftc.teamcode.compoundcontrol.commands;
+package org.firstinspires.ftc.teamcode.commands;
 
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.firstinspires.ftc.teamcode.compoundcontrol.subsystems.ManipulatorSubsystem;
+import org.firstinspires.ftc.teamcode.subsystems.ManipulatorSubsystem;
 
 /**
- * Command to move the manipulator arm down, open the claw, and pitch the claw
- * to an intake position.
+ * Command to move the manipulator arm up, close the claw, and pitch the claw
+ * to a drop position.
  */
-public class MoveDownCommand {
+public class MoveUpCommand {
     private final ManipulatorSubsystem manipulatorSubsystem;
     private boolean isFinished;
     private ElapsedTime timer;
@@ -19,12 +19,12 @@ public class MoveDownCommand {
     private final Telemetry telemetry;
 
     /**
-     * Constructor for the MoveDOwnCommand.
+     * Constructor for the MoveUpCommand.
      *
      * @param subsystem The manipulator subsystem to control.
      * @param opmodeTelemetry The telemetry object for logging.
      */
-    public MoveDownCommand(ManipulatorSubsystem subsystem, Telemetry opmodeTelemetry) {
+    public MoveUpCommand(ManipulatorSubsystem subsystem, Telemetry opmodeTelemetry) {
         manipulatorSubsystem = subsystem;
         telemetry = opmodeTelemetry;
         isFinished = true;
@@ -39,7 +39,7 @@ public class MoveDownCommand {
      * Initializes the command by closing the claw and resetting the state.
      */
     public void initialize() {
-        manipulatorSubsystem.openClaw();
+        manipulatorSubsystem.closeClaw();
         movingClaw = true;
         movingClawPitch = false;
         movingArm = false;
@@ -54,18 +54,22 @@ public class MoveDownCommand {
      */
     public void execute() {
         if (movingClaw) { // If the claw is moving
-            if (timer.seconds() > 0.5) { // Wait for claw to finish
-                movingArm = true;
-                movingClawPitch = true;
+            if (timer.seconds() > 0.5) { // Wait for claw to close
                 movingClaw = false;
-                manipulatorSubsystem.pitchClawToIntake();
-                manipulatorSubsystem.moveArmToIntake();
+                movingClawPitch = true;
+                manipulatorSubsystem.pitchClawToDrop();
                 timer.reset();
             }
-        } else { // If the arm and claw pitch are moving
-            if (!manipulatorSubsystem.isArmBusy()) { // Wait for arm and claw pitch to finish moving
-                movingArm = false;
+        } else if (movingClawPitch) { // If the claw pitch is moving
+            if (timer.seconds() > 0.5) {
                 movingClawPitch = false;
+                movingArm = true;
+                manipulatorSubsystem.moveArmToDrop();
+                timer.reset();
+            }
+        } else { // If the arm is moving
+            if (!manipulatorSubsystem.isArmBusy()) { // Wait for arm to finish
+                movingArm = false;
                 isFinished = true; // Reset for next operation
             }
         }
