@@ -1,7 +1,13 @@
-package org.firstinspires.ftc.teamcode.compoundcontrol;
+package org.firstinspires.ftc.teamcode.opmodes;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+
+import org.firstinspires.ftc.teamcode.commands.Command;
+import org.firstinspires.ftc.teamcode.commands.MoveSweeperCommand;
+import org.firstinspires.ftc.teamcode.commands.ShootCommand;
+import org.firstinspires.ftc.teamcode.subsystems.DriveSubsystem;
+import org.firstinspires.ftc.teamcode.subsystems.SweeperSubsystem;
 
 // This is an OpmMde that combines control of a claw and an arm with more complex logic.
 @TeleOp(name = "Compound Control OpMode", group = "Linear OpMode")

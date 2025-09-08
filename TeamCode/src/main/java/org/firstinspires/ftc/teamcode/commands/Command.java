@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.compoundcontrol;
+package org.firstinspires.ftc.teamcode.commands;
 
 /**
  * Abstract base class for all commands in the command-based framework.

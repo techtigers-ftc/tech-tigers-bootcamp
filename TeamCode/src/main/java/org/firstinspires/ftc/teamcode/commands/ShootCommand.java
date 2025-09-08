@@ -1,4 +1,7 @@
-package org.firstinspires.ftc.teamcode.compoundcontrol;
+package org.firstinspires.ftc.teamcode.commands;
+
+import org.firstinspires.ftc.teamcode.subsystems.DriveSubsystem;
+import org.firstinspires.ftc.teamcode.subsystems.SweeperSubsystem;
 
 /**
  * Command that implements a "shoot" action by driving forward and moving the sweeper to "RESET".

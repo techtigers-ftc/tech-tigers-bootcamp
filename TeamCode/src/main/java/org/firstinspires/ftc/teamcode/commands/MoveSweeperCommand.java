@@ -1,6 +1,8 @@
-package org.firstinspires.ftc.teamcode.compoundcontrol;
+package org.firstinspires.ftc.teamcode.commands;
 
 import com.qualcomm.robotcore.util.ElapsedTime;
+
+import org.firstinspires.ftc.teamcode.subsystems.SweeperSubsystem;
 
 /**
  * Command that will move the sweeper to a specified position

@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.compoundcontrol;
+package org.firstinspires.ftc.teamcode.commands;
 
 /**
  * Abstract base class sequential commands. A sequential command maintains a list of commands and
