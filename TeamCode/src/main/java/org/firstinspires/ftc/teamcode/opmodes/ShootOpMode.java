@@ -2,45 +2,27 @@ package org.firstinspires.ftc.teamcode.opmodes;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.teamcode.RobotState;
 import org.firstinspires.ftc.teamcode.commands.Command;
-import org.firstinspires.ftc.teamcode.commands.DriveCommand;
 import org.firstinspires.ftc.teamcode.commands.MoveSweeperCommand;
 import org.firstinspires.ftc.teamcode.commands.ShootCommand;
 import org.firstinspires.ftc.teamcode.subsystems.DriveSubsystem;
-import org.firstinspires.ftc.teamcode.subsystems.SensorSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.SweeperSubsystem;
 
-// This is an opmode that combines control of a claw and an arm with more complex logic.
-@TeleOp(name="Distance Control OpMode", group="Linear OpMode")
-public class DistanceControlOpMode extends LinearOpMode {
+// This is an OpmMde that combines control of a claw and an arm with more complex logic.
+@TeleOp(name = "Compound Control OpMode", group = "Linear OpMode")
+public class ShootOpMode extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
-        RobotState robotState = new RobotState();
-        SensorSubsystem sensorSubsystem = new SensorSubsystem(hardwareMap, robotState);
         SweeperSubsystem manipulatorSubsystem = new SweeperSubsystem(hardwareMap);
         DriveSubsystem driveSubsystem = new DriveSubsystem(hardwareMap, telemetry);
-
         Command currentCommand = null;
-
-        ElapsedTime timer = new ElapsedTime();
 
         waitForStart();
 
         manipulatorSubsystem.resetSweeper();
 
-        timer.reset();
-
-
         while (opModeIsActive()) {
-            // Calls the periodic of the sensor subsystem to update sensor values
-            sensorSubsystem.periodic();
-
-            // Gets the distance value from the robot state
-            double distance = robotState.getDistance();
-
             // Checks if there is an active command that is scheduled.
             if (currentCommand == null) {
                 // Check for gamepad input and start a command
@@ -74,9 +56,6 @@ public class DistanceControlOpMode extends LinearOpMode {
                 currentCommand = null;
             }
 
-
-            telemetry.addData("Distance (cm)", distance);
-            telemetry.addLine();
             telemetry.update();
         }
     }
