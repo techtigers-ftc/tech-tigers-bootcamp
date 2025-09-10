@@ -23,15 +23,9 @@ public class DistanceControlOpMode extends LinearOpMode {
         DriveSubsystem driveSubsystem = new DriveSubsystem(hardwareMap, telemetry);
 
         Command currentCommand = null;
-
-        ElapsedTime timer = new ElapsedTime();
-
         waitForStart();
 
         manipulatorSubsystem.resetSweeper();
-
-        timer.reset();
-
 
         while (opModeIsActive()) {
             // Calls the periodic of the sensor subsystem to update sensor values

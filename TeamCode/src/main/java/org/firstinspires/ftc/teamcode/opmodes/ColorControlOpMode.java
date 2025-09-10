@@ -2,7 +2,6 @@ package org.firstinspires.ftc.teamcode.opmodes;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.RobotState;
 import org.firstinspires.ftc.teamcode.commands.Command;
@@ -23,13 +22,9 @@ public class ColorControlOpMode extends LinearOpMode {
         SensorSubsystem sensorSubsystem = new SensorSubsystem(hardwareMap, robotState);
 
         Command currentCommand = null;
-
-        ElapsedTime timer = new ElapsedTime();
-
         waitForStart();
 
         manipulatorSubsystem.resetSweeper();
-        timer.reset();
 
         while (opModeIsActive()) {
             // Calls the periodic of the sensor subsystem to update sensor values
@@ -37,6 +32,7 @@ public class ColorControlOpMode extends LinearOpMode {
 
             // Gets the red and blue values from the robot state
             int red = robotState.getRed();
+            int green = robotState.getGreen();
             int blue = robotState.getBlue();
 
 
@@ -74,6 +70,7 @@ public class ColorControlOpMode extends LinearOpMode {
             }
 
             telemetry.addData("Red value", red);
+            telemetry.addData("Green value", green);
             telemetry.addData("Blue value", blue);
             telemetry.addLine();
 
