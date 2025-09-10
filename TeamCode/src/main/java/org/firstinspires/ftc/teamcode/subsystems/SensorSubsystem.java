@@ -18,7 +18,7 @@ public class SensorSubsystem {
      * Constructor for the SensorSubsystem.
      *
      * @param hardwareMap The hardware map to access the robot's hardware components.
-     * @param robotState The robot state to update with sensor values.
+     * @param robotState  The robot state to update with sensor values.
      */
     public SensorSubsystem(HardwareMap hardwareMap, RobotState robotState) {
         colorSensor = hardwareMap.get(RevColorSensorV3.class, "color_sensor");

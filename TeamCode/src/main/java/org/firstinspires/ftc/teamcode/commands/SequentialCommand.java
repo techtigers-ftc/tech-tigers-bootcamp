@@ -54,6 +54,7 @@ public abstract class SequentialCommand extends Command {
 
     /**
      * Returns a boolean that determines if the command is finished or not
+     *
      * @return true if all commands have been executed, false otherwise
      */
     @Override

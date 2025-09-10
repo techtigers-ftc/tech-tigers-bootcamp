@@ -13,7 +13,7 @@ import org.firstinspires.ftc.teamcode.subsystems.SensorSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.SweeperSubsystem;
 
 // This is an opmode that combines control of a claw and an arm with more complex logic.
-@TeleOp(name="Color Control OpMode", group="Linear OpMode")
+@TeleOp(name = "Color Control OpMode", group = "Linear OpMode")
 public class ColorControlOpMode extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
@@ -36,8 +36,8 @@ public class ColorControlOpMode extends LinearOpMode {
             sensorSubsystem.periodic();
 
             // Gets the red and blue values from the robot state
-           int red = robotState.getRed();
-           int blue = robotState.getBlue();
+            int red = robotState.getRed();
+            int blue = robotState.getBlue();
 
 
             // Checks if there is an active command that is scheduled.
@@ -55,7 +55,7 @@ public class ColorControlOpMode extends LinearOpMode {
                     // Moves the sweeper to the "RIGHT" position
                     currentCommand = new MoveSweeperCommand(manipulatorSubsystem, "RIGHT", 0.2);
                     currentCommand.initialize();
-                } else{
+                } else {
                     // No command is active and no commands were scheduled so we can allow for
                     // manual driving.
 

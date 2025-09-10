@@ -38,7 +38,7 @@ public class ShootOpMode extends LinearOpMode {
                     // Moves the sweeper to the "RIGHT" position
                     currentCommand = new MoveSweeperCommand(manipulatorSubsystem, "RIGHT", 0.2);
                     currentCommand.initialize();
-                } else{
+                } else {
                     // No command is active and no commands were scheduled so we can allow for
                     // manual driving.
 

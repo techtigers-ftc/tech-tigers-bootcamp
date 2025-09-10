@@ -20,7 +20,7 @@ public class DriveSubsystem {
      * Constructor for the DriveSubsystem.
      * Initializes the motors and sets their directions based on the robot's configuration.
      *
-     * @param hardwareMap The hardware map to access the robot's hardware
+     * @param hardwareMap     The hardware map to access the robot's hardware
      * @param opModeTelemetry The telemetry object for sending data to the driver station.
      */
     public DriveSubsystem(HardwareMap hardwareMap, Telemetry opModeTelemetry) {

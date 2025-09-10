@@ -29,6 +29,7 @@ public class RobotState {
 
     /**
      * Sets red value from color sensor
+     *
      * @param red value to set
      */
     public void setRed(int red) {
@@ -44,6 +45,7 @@ public class RobotState {
 
     /**
      * Sets blue value from color sensor
+     *
      * @param blue value to set
      */
     public void setBlue(int blue) {
@@ -59,6 +61,7 @@ public class RobotState {
 
     /**
      * Sets green value from color sensor
+     *
      * @param green value to set
      */
     public void setGreen(int green) {
@@ -74,6 +77,7 @@ public class RobotState {
 
     /**
      * Sets distance value from distance sensor
+     *
      * @param distance value to set
      */
     public void setDistance(double distance) {

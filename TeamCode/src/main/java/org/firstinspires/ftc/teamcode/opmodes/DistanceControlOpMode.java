@@ -6,7 +6,6 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.RobotState;
 import org.firstinspires.ftc.teamcode.commands.Command;
-import org.firstinspires.ftc.teamcode.commands.DriveCommand;
 import org.firstinspires.ftc.teamcode.commands.MoveSweeperCommand;
 import org.firstinspires.ftc.teamcode.commands.ShootCommand;
 import org.firstinspires.ftc.teamcode.subsystems.DriveSubsystem;
@@ -14,7 +13,7 @@ import org.firstinspires.ftc.teamcode.subsystems.SensorSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.SweeperSubsystem;
 
 // This is an opmode that combines control of a claw and an arm with more complex logic.
-@TeleOp(name="Distance Control OpMode", group="Linear OpMode")
+@TeleOp(name = "Distance Control OpMode", group = "Linear OpMode")
 public class DistanceControlOpMode extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
@@ -56,7 +55,7 @@ public class DistanceControlOpMode extends LinearOpMode {
                     // Moves the sweeper to the "RIGHT" position
                     currentCommand = new MoveSweeperCommand(manipulatorSubsystem, "RIGHT", 0.2);
                     currentCommand.initialize();
-                } else{
+                } else {
                     // No command is active and no commands were scheduled so we can allow for
                     // manual driving.
 

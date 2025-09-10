@@ -15,11 +15,12 @@ public class DriveCommand extends Command {
 
     /**
      * Constructs the Drive command
+     *
      * @param driveSubsystem the drive subsystem
-     * @param duration the duration for which the command runs in seconds
-     * @param power the power at which the robot drives in a range of -1 to +1
+     * @param duration       the duration for which the command runs in seconds
+     * @param power          the power at which the robot drives in a range of -1 to +1
      */
-    public DriveCommand(DriveSubsystem driveSubsystem, double duration, double power){
+    public DriveCommand(DriveSubsystem driveSubsystem, double duration, double power) {
         this.driveSubsystem = driveSubsystem;
         this.duration = duration;
         this.power = power;
@@ -31,7 +32,7 @@ public class DriveCommand extends Command {
      * Initializes the subsystem, runs once when the command starts
      */
     @Override
-    public void initialize(){
+    public void initialize() {
         timer.reset();
     }
 
@@ -39,11 +40,11 @@ public class DriveCommand extends Command {
      * Executes the command, this method will be called repeatedly until the command finishes
      */
     @Override
-    public void execute(){
+    public void execute() {
         driveSubsystem.drive(this.power, 0, 0);
-        if (this.isFinished()){
+        if (this.isFinished()) {
             // The robot has driven for the specified time so the robot should stop now
-            driveSubsystem.drive(0, 0,0 );
+            driveSubsystem.drive(0, 0, 0);
         } else {
             // Time has not yet elapsed, keep on driving
             driveSubsystem.drive(this.power, 0, 0);
@@ -54,7 +55,7 @@ public class DriveCommand extends Command {
      * Returns a boolean that determines if the command is finished or not
      */
     @Override
-    public boolean isFinished(){
+    public boolean isFinished() {
         return timer.seconds() >= this.duration;
     }
 }
