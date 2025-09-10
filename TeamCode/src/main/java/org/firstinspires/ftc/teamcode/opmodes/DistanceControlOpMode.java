@@ -41,11 +41,11 @@ public class DistanceControlOpMode extends LinearOpMode {
                     // Start the shoot command
                     currentCommand = new ShootCommand(manipulatorSubsystem, driveSubsystem);
                     currentCommand.initialize();
-                } else if (gamepad1.b) {
+                } else if (gamepad1.left_bumper) {
                     // Moves the sweeper to the "LEFT" position
                     currentCommand = new MoveSweeperCommand(manipulatorSubsystem, "LEFT", 0.2);
                     currentCommand.initialize();
-                } else if (gamepad1.x) {
+                } else if (gamepad1.right_bumper) {
                     // Moves the sweeper to the "RIGHT" position
                     currentCommand = new MoveSweeperCommand(manipulatorSubsystem, "RIGHT", 0.2);
                     currentCommand.initialize();
@@ -67,9 +67,9 @@ public class DistanceControlOpMode extends LinearOpMode {
                 currentCommand = null;
             }
 
-
             telemetry.addData("Distance (cm)", distance);
             telemetry.addLine();
+
             telemetry.update();
         }
     }
