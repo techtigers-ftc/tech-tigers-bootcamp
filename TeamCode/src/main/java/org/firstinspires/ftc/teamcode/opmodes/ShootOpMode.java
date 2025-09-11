@@ -7,14 +7,14 @@ import org.firstinspires.ftc.teamcode.commands.Command;
 import org.firstinspires.ftc.teamcode.commands.MoveSweeperCommand;
 import org.firstinspires.ftc.teamcode.commands.ShootCommand;
 import org.firstinspires.ftc.teamcode.subsystems.DriveSubsystem;
-import org.firstinspires.ftc.teamcode.subsystems.SweeperSubsystem;
+import org.firstinspires.ftc.teamcode.subsystems.ManipulatorSubsystem;
 
 // This is an OpmMde that combines control of a claw and an arm with more complex logic.
 @TeleOp(name = "Compound Control OpMode", group = "Linear OpMode")
 public class ShootOpMode extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
-        SweeperSubsystem manipulatorSubsystem = new SweeperSubsystem(hardwareMap);
+        ManipulatorSubsystem manipulatorSubsystem = new ManipulatorSubsystem(hardwareMap);
         DriveSubsystem driveSubsystem = new DriveSubsystem(hardwareMap, telemetry);
         Command currentCommand = null;
 

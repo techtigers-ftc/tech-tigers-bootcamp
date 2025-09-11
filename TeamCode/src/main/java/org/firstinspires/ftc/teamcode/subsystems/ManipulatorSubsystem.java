@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 /**
  * Subsystem for controlling a manipulator with a claw and an arm.
  */
-public class SweeperSubsystem {
+public class ManipulatorSubsystem {
     public final Servo sweeper;
 
     // These are constant that control the left and right positions of the servo arm. Change as
@@ -19,7 +19,7 @@ public class SweeperSubsystem {
      *
      * @param hardwareMap The hardware map to access the robot's hardware components.
      */
-    public SweeperSubsystem(HardwareMap hardwareMap) {
+    public ManipulatorSubsystem(HardwareMap hardwareMap) {
         sweeper = hardwareMap.servo.get("sweeper_servo");
     }
 
