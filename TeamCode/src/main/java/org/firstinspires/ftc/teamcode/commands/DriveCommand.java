@@ -40,13 +40,12 @@ public class DriveCommand extends Command {
      */
     @Override
     public void execute(){
-        driveSubsystem.drive(this.power, 0, 0);
-        if (this.isFinished()){
+        if (isFinished()){
             // The robot has driven for the specified time so the robot should stop now
             driveSubsystem.drive(0, 0,0 );
         } else {
             // Time has not yet elapsed, keep on driving
-            driveSubsystem.drive(this.power, 0, 0);
+            driveSubsystem.drive(power, 0, 0);
         }
     }
 
@@ -55,6 +54,6 @@ public class DriveCommand extends Command {
      */
     @Override
     public boolean isFinished(){
-        return timer.seconds() >= this.duration;
+        return timer.seconds() >= duration;
     }
 }
