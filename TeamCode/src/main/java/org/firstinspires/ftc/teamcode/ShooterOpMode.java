@@ -27,6 +27,7 @@ public class ShooterOpMode extends LinearOpMode {
         timer.reset();
 
         String robotStatus = "READY";
+        String gripDirection = "";
 
         // Any code in this loop runs REPEATEDLY until the driver presses STOP
         while (opModeIsActive()) {
@@ -38,16 +39,22 @@ public class ShooterOpMode extends LinearOpMode {
                 } else if(gamepad1.b) {
                     manipulatorSubsystem.sweeperLeft(); // Move the sweeper to the left
                     robotStatus = "GRIPPING"; // Mark that we are now gripping
+                    gripDirection = "LEFT";
                 } else if (gamepad1.x) {
                     manipulatorSubsystem.sweeperRight(); // Move the sweeper to the right
                     robotStatus = "GRIPPING"; // Mark that we are now gripping
+                    gripDirection = "RIGHT";
                 }
             } else if (robotStatus.equals("DRIVING")) {
                 // Check if 0.5 seconds have passed
                 if (timer.seconds() > 0.5) {
                     // It has been 0.5 seconds, so stop driving and release the ball
                     driveSubsystem.drive(0, 0, 0); // Stop driving
-                    manipulatorSubsystem.sweeperRight(); // Release the ball
+                    if(gripDirection.equals("LEFT")) {
+                        manipulatorSubsystem.sweeperRight(); // Release the ball
+                    } else if(gripDirection.equals("RIGHT")) {
+                        manipulatorSubsystem.sweeperLeft(); // Release the ball
+                    }
                     timer.reset(); // Reset the timer for the shooting phase
                     robotStatus = "SHOOTING"; // Mark that we are now shooting
                 } else {
