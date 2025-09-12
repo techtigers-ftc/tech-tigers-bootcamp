@@ -8,6 +8,7 @@ public class RobotState {
     private int blue;
     private int green;
     private double distance;
+    private boolean detectRed;
 
     /**
      * Constructor for RobotState
@@ -18,6 +19,15 @@ public class RobotState {
         this.blue = 0;
         this.green = 0;
         this.distance = 0;
+        this.detectRed = true;
+    }
+
+    public boolean isDetectRed() {
+        return detectRed;
+    }
+
+    public void setDetectRed(boolean detectRed) {
+        this.detectRed = detectRed;
     }
 
     /**
