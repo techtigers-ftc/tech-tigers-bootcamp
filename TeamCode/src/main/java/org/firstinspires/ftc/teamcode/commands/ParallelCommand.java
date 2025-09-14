@@ -4,9 +4,8 @@ package org.firstinspires.ftc.teamcode.commands;
  * Abstract base class sequential commands. A sequential command maintains a list of commands and
  * runs them sequentially.
  */
-public class SequentialCommand extends Command {
+public class ParallelCommand extends Command {
     private final Command[] commands;
-    private int commandIndex; // An index to track the current command being executed
 
     /**
      * Constructs the SequentialCommand
@@ -15,10 +14,9 @@ public class SequentialCommand extends Command {
      *
      * @param commands the list of commands to run sequentially
      */
-    public SequentialCommand(Command[] commands) {
+    public ParallelCommand(Command[] commands) {
         this.commands = commands;
         // Both of these will be updated in the initialize method
-        commandIndex = -1;
     }
 
     /**
@@ -26,9 +24,9 @@ public class SequentialCommand extends Command {
      */
     @Override
     public void initialize() {
-        commandIndex = 0; // Start with the first command
-        // NOTE: This will error with a index out of bounds if the commands array is empty
-        commands[commandIndex].initialize(); // Initialize the first command
+        for (Command command : commands) {
+            command.initialize();
+        }
     }
 
     /**
@@ -37,27 +35,27 @@ public class SequentialCommand extends Command {
     @Override
     public void execute() {
         if (!isFinished()) {
-            Command currentCommand = commands[commandIndex];
-            // If the command is just starting, initialize it
-            if (currentCommand.isFinished()) {
-                // Move to the next command
-                commandIndex++;
-                if (commandIndex < commands.length) {
-                    commands[commandIndex].initialize();
+            for (Command command : commands) {
+                if (!command.isFinished()) {
+                    command.execute();
                 }
-            } else {
-                // Execute the current command
-                currentCommand.execute();
             }
         }
     }
 
     /**
      * Returns a boolean that determines if the command is finished or not
+     *
      * @return true if all commands have been executed, false otherwise
      */
     @Override
     public boolean isFinished() {
-        return commandIndex >= commands.length;
+        int commandFinishedCounter = 0;
+        for (Command command : commands) {
+            if (command.isFinished()) {
+                commandFinishedCounter++;
+            }
+        }
+        return commandFinishedCounter >= commands.length;
     }
 }
